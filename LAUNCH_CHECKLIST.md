@@ -45,7 +45,8 @@ Responsable : ____________________
 - [ ] Téléphone, e-mail, adresse et réseaux sociaux vérifiés.
 - [ ] Carte Marrakech vérifiée.
 - [ ] Carte Dubai vérifiée.
-- [ ] Carte Casablanca vérifiée avec les coordonnées officielles, ou laissée désactivée avec « Adresse à confirmer ».
+- [x] Carte Casablanca configurée (33.5846519, -7.6528649).
+- [ ] Adresse postale complète du bureau de Casablanca à renseigner.
 - [ ] Affichage contrôlé sur téléphone, tablette et ordinateur.
 
 ## Administration et contenu
@@ -61,7 +62,7 @@ Responsable : ____________________
 
 - [ ] Balise Google Ads `AW-987825813` détectée sur les pages publiques.
 - [ ] Bannière de consentement testée avec acceptation et refus.
-- [ ] Conversion de demande de contact vérifiée dans Google Ads avec une soumission de test réussie.
+- [ ] Conversion de demande de contact vérifiée dans Google Ads avec une soumission de test réussie (voir `GOOGLE_ADS_TRACKING.md`).
 - [ ] Si Plausible est utilisé : domaine suivi correct et script détecté.
 - [ ] Propriété Google Search Console validée.
 - [ ] `https://mc-cg.com/sitemap.xml` soumis dans Google Search Console.

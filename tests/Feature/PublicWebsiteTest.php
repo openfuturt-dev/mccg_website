@@ -9,6 +9,7 @@ use App\Support\CanonicalUrl;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PublicWebsiteTest extends TestCase
@@ -113,7 +114,7 @@ class PublicWebsiteTest extends TestCase
 
         $response
             ->assertSessionHas('success')
-            ->assertSessionHas('google_ads_conversion', true);
+            ->assertSessionHas('mccg_lead_id', fn ($id) => Str::isUuid($id));
 
         $this->assertDatabaseHas('contact_messages', ['email' => 'samira@example.com', 'status' => 'new']);
         Http::assertSent(function ($request) {
@@ -135,6 +136,7 @@ class PublicWebsiteTest extends TestCase
             'email' => 'not-an-email',
             'message' => 'Un message suffisamment long.',
         ])->assertSessionHasErrors(['email']);
+        $this->assertFalse(session()->has('mccg_lead_id'));
         Http::assertNothingSent();
     }
 
@@ -181,17 +183,27 @@ class PublicWebsiteTest extends TestCase
             ->assertSee('Ouvrir dans Google Maps')
             ->assertSee('Carte du bureau MCCG à Marrakech')
             ->assertSee('Carte du bureau MCCG à Dubai')
-            ->assertSee('Bureau Casablanca')
-            ->assertSee('Adresse à confirmer')
-            ->assertSee('data-map-fallback="Casablanca"', false)
-            ->assertDontSee('Carte du bureau MCCG à Casablanca')
+            ->assertSee('Carte du bureau MCCG à Casablanca')
+            ->assertSee('33.5846519,-7.6528649', false)
+            ->assertDontSee('data-map-fallback="Casablanca"', false)
             ->assertSee('data-office-carousel', false)
             ->assertSee('"telephone":"05 24 43 83 70"', false)
             ->assertSee('"email":"contact@mc-cg.com"', false)
             ->assertSee('"streetAddress":"92, Bd Zerktouni, Appt 6, 2ème étage"', false)
             ->assertSee('"addressLocality":"Marrakech"', false);
 
-        $this->assertSame(2, substr_count($response->getContent(), 'title="Carte du bureau'));
+        $this->assertSame(3, substr_count($response->getContent(), 'title="Carte du bureau'));
+    }
+
+    public function test_each_city_page_embeds_its_own_office_map(): void
+    {
+        $this->get(route('marrakech'))->assertOk()->assertSee('31.6372705,-8.0116213', false);
+        $this->get(route('casablanca'))->assertOk()
+            ->assertSee('33.5846519,-7.6528649', false)
+            ->assertDontSee('31.6372705', false);
+        $this->get(route('dubai'))->assertOk()
+            ->assertSee('25.1773294,55.273418', false)
+            ->assertDontSee('31.6372705', false);
     }
 
     public function test_analytics_are_not_rendered_without_configuration(): void
@@ -258,22 +270,75 @@ class PublicWebsiteTest extends TestCase
             ->assertDontSee('data-cookie-notice', false);
     }
 
-    public function test_google_ads_conversion_is_rendered_only_for_a_successful_lead(): void
+    public function test_lead_payload_is_rendered_only_for_a_successful_lead(): void
     {
         config()->set('mccg.analytics_provider', 'google');
         config()->set('mccg.google_tag_id', 'AW-987825813');
         config()->set('mccg.google_ads_conversion_send_to', 'AW-987825813/g_upCMH2m7sYEJWNhNcD');
+        $leadId = (string) Str::uuid();
 
         $this->get(route('contact'))
             ->assertOk()
-            ->assertDontSee('data-mccg-google-ads-conversion', false);
+            ->assertDontSee('data-mccg-lead', false)
+            ->assertDontSee("window.gtag('event', 'conversion'", false);
 
-        $this->withSession(['google_ads_conversion' => true])
+        $this->withSession(['mccg_lead_id' => $leadId])
             ->get(route('contact'))
             ->assertOk()
-            ->assertSee('data-mccg-google-ads-conversion', false)
-            ->assertSee('AW-987825813\/g_upCMH2m7sYEJWNhNcD', false)
-            ->assertSee("window.gtag('event', 'conversion'", false);
+            ->assertSee('<script type="application/json" data-mccg-lead>', false)
+            ->assertSee('"id":"'.$leadId.'"', false)
+            ->assertSee('"form":"contact"', false)
+            ->assertSee('"sendTo":"AW-987825813\/g_upCMH2m7sYEJWNhNcD"', false);
+    }
+
+    public function test_lead_payload_supports_gtm_only_conversion_setup(): void
+    {
+        config()->set('mccg.analytics_provider', 'google');
+        config()->set('mccg.google_tag_id', 'AW-987825813');
+        config()->set('mccg.google_ads_conversion_send_to', '');
+
+        $this->withSession(['mccg_lead_id' => (string) Str::uuid()])
+            ->get(route('contact'))
+            ->assertOk()
+            ->assertSee('data-mccg-lead', false)
+            ->assertSee('"sendTo":null', false);
+    }
+
+    public function test_lead_payload_is_not_rendered_without_google_tracking(): void
+    {
+        config()->set('mccg.analytics_provider', 'plausible');
+        config()->set('mccg.plausible_domain', 'mc-cg.com');
+
+        $this->withSession(['mccg_lead_id' => (string) Str::uuid()])
+            ->get(route('contact'))
+            ->assertOk()
+            ->assertDontSee('data-mccg-lead', false);
+    }
+
+    public function test_successful_lead_is_rendered_once_without_personal_data(): void
+    {
+        config()->set('mccg.analytics_provider', 'google');
+        config()->set('mccg.google_tag_id', 'AW-987825813');
+        config()->set('services.resend.key', 're_test_secret');
+        config()->set('services.resend.contact.to', 'contact@mc-cg.com');
+        Http::fake(['api.resend.com/*' => Http::response(['id' => 'email_123'], 200)]);
+
+        $this->from(route('contact'))->followingRedirects()->post(route('contact.store'), [
+            'full_name' => 'Samira Alaoui', 'email' => 'samira@example.com',
+            'phone' => '+212600000000', 'company' => 'Atlas SARL',
+            'message' => 'Je souhaite échanger au sujet de notre organisation fiscale.',
+        ])->assertOk()->assertSee('Votre demande a bien été envoyée.');
+
+        $html = $this->get(route('contact'))->assertOk()->getContent();
+        $this->assertStringNotContainsString('data-mccg-lead', $html, 'A reload must not report the lead again.');
+
+        $first = $this->postLeadAndCapturePayload();
+        $second = $this->postLeadAndCapturePayload();
+        $this->assertNotSame($first['id'], $second['id'], 'Each submission needs its own transaction ID.');
+
+        foreach (['Samira', 'samira@example.com', '+212600000000', 'Atlas SARL', 'organisation fiscale'] as $personalData) {
+            $this->assertStringNotContainsString($personalData, json_encode($first));
+        }
     }
 
     public function test_contact_page_and_footer_work_without_google_maps_urls(): void
@@ -329,11 +394,24 @@ class PublicWebsiteTest extends TestCase
         ])
             ->assertSessionHas('error')
             ->assertSessionHasInput('email', 'youssef@example.com')
-            ->assertSessionMissing('google_ads_conversion');
+            ->assertSessionMissing('mccg_lead_id');
 
         $this->assertDatabaseHas('contact_messages', ['email' => 'youssef@example.com', 'status' => 'new']);
         $this->assertStringNotContainsString('re_private_key', session('error'));
         $this->assertStringNotContainsString('Provider diagnostics', session('error'));
+    }
+
+    private function postLeadAndCapturePayload(): array
+    {
+        $html = $this->from(route('contact'))->followingRedirects()->post(route('contact.store'), [
+            'full_name' => 'Samira Alaoui', 'email' => 'samira@example.com',
+            'phone' => '+212600000000', 'company' => 'Atlas SARL',
+            'message' => 'Je souhaite échanger au sujet de notre organisation fiscale.',
+        ])->assertOk()->getContent();
+
+        $this->assertSame(1, preg_match('#<script type="application/json" data-mccg-lead>(.*?)</script>#s', $html, $match));
+
+        return json_decode($match[1], true, flags: JSON_THROW_ON_ERROR);
     }
 
     public function test_admin_can_open_all_management_sections(): void

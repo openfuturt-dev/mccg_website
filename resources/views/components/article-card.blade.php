@@ -1,12 +1,17 @@
 @props(['article'])
-<article class="reveal hover-lift group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm shadow-slate-900/[.02] hover:shadow-lg hover:shadow-slate-900/[.05]" data-reveal>
-    <a href="{{ route('articles.show', $article) }}" class="block aspect-[16/9] overflow-hidden bg-surface">
-        @if($article->featured_image)<img src="{{ asset('storage/'.$article->featured_image) }}" alt="{{ $article->title }}" class="h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.025]" loading="lazy">@else<div class="relative grid h-full place-items-center bg-surface"><img src="{{ asset('images/logo.png') }}" alt="" class="w-44 opacity-40 transition duration-500 ease-out group-hover:scale-[1.025]" loading="lazy"></div>@endif
-    </a>
-    <div class="p-5 sm:p-6">
-        <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-wider text-slate-500"><span class="font-semibold text-coral">{{ $article->category?->name ?? 'Conseil' }}</span><span>—</span><time>{{ $article->published_at?->translatedFormat('d M Y') }}</time></div>
-        <h3 class="mb-3 text-lg font-bold leading-snug text-charcoal transition-colors duration-300 group-hover:text-coral"><a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a></h3>
-        <p class="mb-5 line-clamp-3 leading-7">{{ $article->excerpt }}</p>
-        <a href="{{ route('articles.show', $article) }}" class="text-sm font-semibold text-coral">Lire l’article →</a>
+<article class="card card-interactive group relative flex h-full flex-col overflow-hidden" data-reveal>
+    <div class="relative aspect-[16/10] overflow-hidden bg-mist">
+        @if($article->featured_image)
+            <img src="{{ asset('storage/'.$article->featured_image) }}" alt="{{ $article->title }}" class="img-zoom h-full w-full object-cover" loading="lazy">
+        @else
+            <div class="bg-zellige grid h-full place-items-center bg-mist [background-size:48px]"><div class="grid h-full w-full place-items-center bg-mist/80"><img src="{{ asset('images/logo-mccg.png') }}" alt="" class="img-zoom w-36 opacity-50" width="233" height="56" loading="lazy"></div></div>
+        @endif
+        <span class="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-coral shadow-soft backdrop-blur">{{ $article->category?->name ?? 'Conseil' }}</span>
+    </div>
+    <div class="flex grow flex-col p-6 sm:p-7">
+        <time class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ $article->published_at?->translatedFormat('d M Y') }}</time>
+        <h3 class="mt-3 font-heading text-lg font-bold leading-snug text-charcoal transition-colors duration-300 group-hover:text-coral"><a href="{{ route('articles.show', $article) }}" class="after:absolute after:inset-0 after:content-['']">{{ $article->title }}</a></h3>
+        <p class="mt-3 line-clamp-3 grow text-[15px] leading-7 text-slate-600">{{ $article->excerpt }}</p>
+        <span class="link-arrow mt-6 self-start">Lire l’article <x-line-icon name="arrow-right" class="btn-arrow" stroke="2" /></span>
     </div>
 </article>

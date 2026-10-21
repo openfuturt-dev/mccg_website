@@ -8,6 +8,7 @@ use App\Models\PageSeo;
 use App\Models\Service;
 use App\Services\ResendContactMailer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Throwable;
 
 class ContactController extends Controller
@@ -47,6 +48,6 @@ class ContactController extends Controller
         return back()->with(
             'success',
             'Votre demande a bien été envoyée. Notre équipe vous contactera prochainement.'
-        )->with('google_ads_conversion', true);
+        )->with('mccg_lead_id', (string) Str::uuid());
     }
 }

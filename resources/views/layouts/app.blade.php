@@ -31,6 +31,11 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#333333">
     <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <script>
+        // Lets CSS hide animated elements before first paint; reveals everything if the bundle fails to start.
+        document.documentElement.classList.add('js');
+        setTimeout(function () { if (!document.documentElement.classList.contains('motion-ready')) document.documentElement.classList.remove('js'); }, 2500);
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script type="application/ld+json">{!! json_encode([
         $schemaContext => 'https://schema.org', '@type' => ['LocalBusiness', 'ProfessionalService'],
@@ -105,27 +110,15 @@
             <!-- End Google Tag Manager -->
         @endif
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ urlencode($googleTagId) }}" data-mccg-google-tag></script>
-        @if(session('google_ads_conversion') && $googleAdsConversionSendTo)
-            <script data-mccg-google-ads-conversion>
-                (() => {
-                    let sent = false;
-                    window.mccgTrackGoogleAdsConversion = () => {
-                        if (sent || window.mccgGoogleConsent !== 'accepted') return;
-
-                        window.gtag('event', 'conversion', {
-                            send_to: @json($googleAdsConversionSendTo),
-                        });
-                        sent = true;
-                    };
-                    window.mccgTrackGoogleAdsConversion();
-                })();
-            </script>
+        @if(session('mccg_lead_id'))
+            <script type="application/json" data-mccg-lead>@json(['id' => session('mccg_lead_id'), 'form' => 'contact', 'sendTo' => $googleAdsConversionSendTo ?: null])</script>
         @endif
     @elseif($analyticsProvider === 'plausible' && $plausibleDomain)
         <script defer data-domain="{{ $plausibleDomain }}" src="https://plausible.io/js/script.js" data-mccg-plausible></script>
     @endif
 </head>
-<body class="bg-surface text-slate-700 antialiased">
+<body class="bg-white text-slate-700 antialiased">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-charcoal focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white">Aller au contenu</a>
     @if($analyticsProvider === 'google' && $googleTagId && $googleTagManagerId)
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode($googleTagManagerId) }}"
@@ -134,7 +127,7 @@
     @endif
     <x-navbar />
 
-    <main>@yield('content')</main>
+    <main id="contenu">@yield('content')</main>
 
     <x-footer />
 

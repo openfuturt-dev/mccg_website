@@ -1,5 +1,10 @@
 @props(['services'])
-<div class="reveal min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/[.03] sm:p-8 lg:p-10" data-reveal>
+<div class="relative min-w-0 overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-lift sm:p-9 lg:p-11" data-reveal>
+    <span class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-coral via-coral/70 to-coral/20" aria-hidden="true"></span>
+    <div class="mb-8 flex items-start gap-4 border-b border-line pb-7">
+        <span class="icon-badge"><x-line-icon name="message" class="size-5" /></span>
+        <div><h2 class="font-heading text-xl font-bold text-charcoal sm:text-2xl">Envoyez-nous votre demande</h2><p class="mt-1 text-sm text-slate-500">Les champs marqués d’un astérisque (*) sont obligatoires.</p></div>
+    </div>
     @if(session('success'))<div class="mb-7 rounded-md border-l-4 border-emerald-500 bg-emerald-50 p-4 text-sm text-emerald-800">{{ session('success') }}</div>@endif
     @if(session('error'))<div class="mb-7 rounded-md border-l-4 border-coral bg-red-50 p-4 text-sm text-red-800">{{ session('error') }}</div>@endif
     @if($errors->any())<div class="mb-7 rounded-md border-l-4 border-coral bg-red-50 p-4 text-sm text-red-800">Merci de corriger les champs signalés.</div>@endif

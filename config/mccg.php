@@ -33,9 +33,9 @@ return [
         ],
         [
             'city' => 'Casablanca',
-            'address' => 'Adresse à confirmer',
-            'maps_url' => env('MCCG_CASABLANCA_MAPS_URL'),
-            'embed_url' => env('MCCG_CASABLANCA_MAPS_EMBED_URL'),
+            'address' => 'Bureau MCCG Casablanca',
+            'maps_url' => env('MCCG_CASABLANCA_MAPS_URL', 'https://www.google.com/maps?q=33.5846519,-7.6528649&z=17&hl=en'),
+            'embed_url' => env('MCCG_CASABLANCA_MAPS_EMBED_URL', 'https://www.google.com/maps?q=33.5846519,-7.6528649&z=15&output=embed'),
         ],
         [
             'city' => 'Dubai',

@@ -1,178 +1,91 @@
+@php
+    $phone = config('mccg.phone');
+    $email = config('mccg.email');
+    $sites = [
+        ['route' => 'marrakech', 'city' => 'Marrakech', 'label' => 'Bureau principal · Maroc', 'image' => 'marrakech.webp'],
+        ['route' => 'casablanca', 'city' => 'Casablanca', 'label' => 'Maroc', 'image' => 'casa.webp'],
+        ['route' => 'dubai', 'city' => 'Dubaï', 'label' => 'Émirats arabes unis', 'image' => 'dubai.webp'],
+    ];
+@endphp
 
+{{-- Utility bar (desktop): scrolls away, the main header stays sticky. --}}
+<div class="hidden bg-charcoal text-[12px] text-white/70 lg:block">
+    <div class="container-site flex h-10 items-center justify-between gap-6">
+        <p class="flex items-center gap-2"><x-line-icon name="map-pin" class="size-3.5 text-coral" /> Marrakech · Casablanca · Dubaï</p>
+        <div class="flex items-center gap-6">
+            <a class="flex items-center gap-2 hover:text-white" href="tel:{{ preg_replace('/\s+/', '', $phone) }}"><x-line-icon name="phone" class="size-3.5 text-coral" />{{ $phone }}</a>
+            <a class="flex items-center gap-2 hover:text-white" href="mailto:{{ $email }}"><x-line-icon name="mail" class="size-3.5 text-coral" />{{ $email }}</a>
+            <span class="flex items-center gap-2"><x-line-icon name="clock" class="size-3.5 text-coral" />{{ config('mccg.hours') }}</span>
+            <span class="h-4 w-px bg-white/15" aria-hidden="true"></span>
+            <a class="hover:text-coral" href="{{ config('mccg.linkedin_url') }}" target="_blank" rel="noopener noreferrer" aria-label="MCCG sur LinkedIn"><x-line-icon name="linkedin" class="size-4" /></a>
+            <a class="hover:text-coral" href="{{ config('mccg.instagram_url') }}" target="_blank" rel="noopener noreferrer" aria-label="MCCG sur Instagram"><x-line-icon name="instagram" class="size-4" /></a>
+        </div>
+    </div>
+</div>
 
-
-<header class="site-navbar sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur" data-navbar>
-    <style>
-        .office-menu { position: relative; }
-        .office-menu__trigger {
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            border: 0;
-            background: transparent;
-            color: inherit;
-            cursor: pointer;
-            font: inherit;
-        }
-        .office-menu__chevron {
-            width: .85rem;
-            height: .85rem;
-            transition: transform .25s ease;
-        }
-        .office-menu__panel {
-            position: absolute;
-            z-index: 60;
-            top: calc(100% + 1rem);
-            left: 50%;
-            width: 13rem;
-            padding: .5rem;
-            border: 1px solid rgb(226 232 240);
-            border-radius: .75rem;
-            background: #fff;
-            box-shadow: 0 18px 45px rgb(51 51 51 / .14);
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translate(-50%, -.5rem);
-            transition: opacity .2s ease, transform .25s ease, visibility .25s;
-        }
-        .office-menu__panel::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            bottom: 100%;
-            left: 0;
-            height: 1rem;
-        }
-        .office-menu__link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 2.75rem;
-            padding: .65rem .75rem;
-            border-radius: .5rem;
-            color: #475569;
-            transition: color .2s ease, background-color .2s ease, transform .2s ease;
-        }
-        .office-menu__link:hover,
-        .office-menu__link:focus-visible {
-            background: #f2f2f2;
-            color: #e84c64;
-            outline: none;
-            transform: translateX(.15rem);
-        }
-        .office-menu__link.is-active {
-            background: rgb(232 76 100 / .09);
-            color: #e84c64;
-        }
-        .office-menu__dot {
-            width: .35rem;
-            height: .35rem;
-            border-radius: 999px;
-            background: currentColor;
-            opacity: .65;
-        }
-        .office-menu.is-open .office-menu__panel,
-        .office-menu:focus-within .office-menu__panel {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translate(-50%, 0);
-        }
-        .office-menu.is-open .office-menu__chevron,
-        .office-menu:focus-within .office-menu__chevron { transform: rotate(180deg); }
-        @media (hover: hover) and (pointer: fine) {
-            .office-menu:hover .office-menu__panel {
-                opacity: 1;
-                visibility: visible;
-                pointer-events: auto;
-                transform: translate(-50%, 0);
-            }
-            .office-menu:hover .office-menu__chevron { transform: rotate(180deg); }
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const officeMenu = document.querySelector('[data-office-menu]');
-            const officeTrigger = officeMenu?.querySelector('[data-office-trigger]');
-
-            if (!officeMenu || !officeTrigger) return;
-
-            const setOfficeMenu = function (isOpen) {
-                officeMenu.classList.toggle('is-open', isOpen);
-                officeTrigger.setAttribute('aria-expanded', String(isOpen));
-            };
-
-            officeTrigger.addEventListener('click', function () {
-                setOfficeMenu(!officeMenu.classList.contains('is-open'));
-            });
-
-            document.addEventListener('click', function (event) {
-                if (!officeMenu.contains(event.target)) setOfficeMenu(false);
-            });
-
-            officeMenu.addEventListener('keydown', function (event) {
-                if (event.key !== 'Escape') return;
-                setOfficeMenu(false);
-                officeTrigger.focus();
-            });
-        });
-    </script>
-    <div class="container-site flex h-16 items-center justify-between sm:h-20">
-
-        <a href="{{ route('accueil') }}" class="block h-12 w-[170px] overflow-hidden sm:h-14 sm:w-[200px]" aria-label="MCCG — Accueil">
-            <img src="{{ asset('images/logo.png') }}" alt="MCCG" class="w-[180px] max-w-none -translate-x-1 -translate-y-[23px] sm:w-[210px] sm:-translate-y-[27px]" width="310" height="163">
+<header class="site-navbar sticky top-0 z-50 border-b border-transparent bg-white/95 backdrop-blur-xl" data-navbar>
+    <div class="navbar-row container-site flex h-16 items-center justify-between sm:h-20">
+        <a href="{{ route('accueil') }}" class="flex shrink-0 items-center" aria-label="MCCG — Accueil">
+            <img src="{{ asset('images/logo-mccg.png') }}" alt="MCCG" class="h-9 w-auto sm:h-10" width="233" height="56">
         </a>
-        <nav class="hidden items-center gap-7 text-[13px] font-semibold text-slate-600 lg:flex" aria-label="Navigation principale">
+
+        <nav class="hidden items-center gap-8 text-[13.5px] font-semibold text-slate-600 lg:flex" aria-label="Navigation principale">
             <a class="nav-link {{ request()->routeIs('accueil') ? 'active' : '' }}" href="{{ route('accueil') }}">Accueil</a>
             <a class="nav-link {{ request()->routeIs('a-propos') ? 'active' : '' }}" href="{{ route('a-propos') }}">À propos</a>
             <a class="nav-link {{ request()->routeIs('services.*') ? 'active' : '' }}" href="{{ route('services.index') }}">Services</a>
             <a class="nav-link {{ request()->routeIs('articles.*') ? 'active' : '' }}" href="{{ route('articles.index') }}">Articles</a>
             <div class="office-menu" data-office-menu>
-                <button
-                    type="button"
-                    class="nav-link office-menu__trigger {{ request()->routeIs('marrakech', 'casablanca', 'dubai') ? 'active' : '' }}"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    aria-controls="office-menu-panel"
-                    data-office-trigger
-                >
-                    Nos sites
-                    <svg class="office-menu__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-                        <path d="m4 6 4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <button type="button" class="nav-link office-menu__trigger {{ request()->routeIs('marrakech', 'casablanca', 'dubai') ? 'active' : '' }}" aria-haspopup="true" aria-expanded="false" aria-controls="office-menu-panel" data-office-trigger>
+                    Nos sites <x-line-icon name="chevron-down" class="office-menu__chevron" stroke="2" />
                 </button>
-
                 <div id="office-menu-panel" class="office-menu__panel" aria-label="Choisir un site">
-                    <a class="office-menu__link {{ request()->routeIs('marrakech') ? 'is-active' : '' }}" href="{{ route('marrakech') }}">
-                        Marrakech <span class="office-menu__dot" aria-hidden="true"></span>
-                    </a>
-                    <a class="office-menu__link {{ request()->routeIs('casablanca') ? 'is-active' : '' }}" href="{{ route('casablanca') }}">
-                        Casablanca <span class="office-menu__dot" aria-hidden="true"></span>
-                    </a>
-                    <a class="office-menu__link {{ request()->routeIs('dubai') ? 'is-active' : '' }}" href="{{ route('dubai') }}">
-                        Dubaï <span class="office-menu__dot" aria-hidden="true"></span>
-                    </a>
+                    <p class="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[.2em] text-slate-400">Nos implantations</p>
+                    @foreach($sites as $site)
+                        <a class="office-menu__link {{ request()->routeIs($site['route']) ? 'is-active' : '' }}" href="{{ route($site['route']) }}">
+                            <img src="{{ asset('images/'.$site['image']) }}" alt="" width="48" height="48" loading="lazy">
+                            <span class="min-w-0 grow">
+                                <span class="office-menu__city block font-heading text-sm font-bold">{{ $site['city'] }}</span>
+                                <span class="block text-xs font-medium text-slate-500">{{ $site['label'] }}</span>
+                            </span>
+                            <x-line-icon name="arrow-up-right" class="size-4 text-slate-400" />
+                        </a>
+                    @endforeach
                 </div>
             </div>
             <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-            <x-button-primary :href="route('contact', ['objet' => 'consultation'])" class="!px-5 !py-3">Nous consulter</x-button-primary>
+            <x-button-primary :href="route('contact', ['objet' => 'consultation'])" class="!min-h-11 !px-5">Nous consulter</x-button-primary>
         </nav>
-        <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-md border border-slate-200 text-charcoal focus:outline-none focus:ring-2 focus:ring-coral/30 lg:hidden" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-            <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="1.8" d="M4 7h16M4 12h16M4 17h16"/></svg>
+
+        <button id="menu-toggle" type="button" class="grid size-11 place-items-center rounded-full border border-line text-charcoal transition hover:border-coral hover:text-coral lg:hidden" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+            <x-line-icon name="menu" class="menu-icon-open size-5" stroke="1.8" />
+            <x-line-icon name="x" class="menu-icon-close size-5" stroke="1.8" />
         </button>
     </div>
-    <nav id="mobile-menu" class="mobile-menu-panel absolute inset-x-0 top-full border-t border-slate-100 bg-white shadow-lg lg:hidden" aria-hidden="true">
-        <div class="container-site flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto py-4 font-heading font-semibold text-charcoal sm:max-h-[calc(100dvh-5rem)]">
-            <a class="flex min-h-11 items-center rounded-md px-2 hover:bg-surface hover:text-coral" href="{{ route('accueil') }}">Accueil</a><a class="flex min-h-11 items-center rounded-md px-2 hover:bg-surface hover:text-coral" href="{{ route('a-propos') }}">À propos</a>
-            <a class="flex min-h-11 items-center rounded-md px-2 hover:bg-surface hover:text-coral" href="{{ route('services.index') }}">Services</a><a class="flex min-h-11 items-center rounded-md px-2 hover:bg-surface hover:text-coral" href="{{ route('articles.index') }}">Articles</a>
-            <p class="px-2 pb-1 pt-3 text-[10px] uppercase tracking-[.18em] text-slate-400">Nos sites</p>
-            <div class="grid grid-cols-3 gap-2 px-2 pb-2">
-                <a class="rounded-md border border-slate-200 px-2 py-2 text-center text-xs hover:border-coral hover:text-coral" href="{{ route('marrakech') }}">Marrakech</a>
-                <a class="rounded-md border border-slate-200 px-2 py-2 text-center text-xs hover:border-coral hover:text-coral" href="{{ route('casablanca') }}">Casablanca</a>
-                <a class="rounded-md border border-slate-200 px-2 py-2 text-center text-xs hover:border-coral hover:text-coral" href="{{ route('dubai') }}">Dubaï</a>
+
+    <span class="scroll-progress absolute inset-x-0 bottom-0 block h-0.5 bg-coral" data-scroll-progress aria-hidden="true"></span>
+
+    <nav id="mobile-menu" class="mobile-menu-panel absolute inset-x-0 top-full border-t border-line bg-white shadow-lift lg:hidden" aria-label="Navigation mobile" aria-hidden="true" data-lenis-prevent>
+        <div class="container-site flex max-h-[calc(100dvh-4rem)] flex-col overflow-y-auto py-5 sm:max-h-[calc(100dvh-5rem)]">
+            <div class="flex flex-col font-heading text-lg font-semibold text-charcoal">
+                @foreach([['accueil', 'Accueil', 'accueil'], ['a-propos', 'À propos', 'a-propos'], ['services.index', 'Services', 'services.*'], ['articles.index', 'Articles', 'articles.*'], ['contact', 'Contact', 'contact']] as [$route, $label, $pattern])
+                    <a class="flex min-h-12 items-center justify-between border-b border-line/70 {{ request()->routeIs($pattern) ? 'text-coral' : 'hover:text-coral' }}" href="{{ route($route) }}">{{ $label }} <x-line-icon name="arrow-right" class="size-4 text-slate-300" /></a>
+                @endforeach
             </div>
-            <a class="flex min-h-11 items-center rounded-md px-2 hover:bg-surface hover:text-coral" href="{{ route('contact') }}">Contact</a><x-button-primary :href="route('contact', ['objet' => 'consultation'])" class="mt-3 w-full text-center">Nous consulter</x-button-primary>
+            <p class="pb-3 pt-6 text-[10px] font-semibold uppercase tracking-[.2em] text-slate-400">Nos sites</p>
+            <div class="grid grid-cols-3 gap-2">
+                @foreach($sites as $site)
+                    <a class="group relative overflow-hidden rounded-lg" href="{{ route($site['route']) }}">
+                        <img src="{{ asset('images/'.$site['image']) }}" alt="" class="img-zoom aspect-[4/3] w-full object-cover" width="160" height="120" loading="lazy">
+                        <span class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></span>
+                        <span class="absolute inset-x-0 bottom-0 p-2 text-center text-xs font-semibold text-white">{{ $site['city'] }}</span>
+                    </a>
+                @endforeach
+            </div>
+            <div class="mt-6 grid gap-2 text-sm text-slate-600">
+                <a class="flex items-center gap-3" href="tel:{{ preg_replace('/\s+/', '', $phone) }}"><x-line-icon name="phone" class="size-4 text-coral" />{{ $phone }}</a>
+                <a class="flex items-center gap-3 break-all" href="mailto:{{ $email }}"><x-line-icon name="mail" class="size-4 text-coral" />{{ $email }}</a>
+            </div>
+            <x-button-primary :href="route('contact', ['objet' => 'consultation'])" class="mt-6 w-full">Nous consulter</x-button-primary>
         </div>
     </nav>
 </header>

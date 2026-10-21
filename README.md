@@ -56,7 +56,7 @@ The application is currently functional and includes:
 | LinkedIn | `https://www.linkedin.com/in/majdchraibi` |
 | Instagram | `https://www.instagram.com/mccg.consulting` |
 
-The Casablanca map is deliberately disabled until verified coordinates are available. Visitors see “Bureau Casablanca” and “Adresse à confirmer”; no iframe or Dubai coordinates are rendered for that slide.
+The Casablanca map uses the office coordinates `33.5846519, -7.6528649`. The street address shown is a placeholder (“Bureau MCCG Casablanca”) until the full address is confirmed.
 
 ## 2. Technology stack
 
@@ -638,7 +638,7 @@ CONTACT_NOTIFICATION_EMAIL=admin@mccg.ma
 
 Never commit a real production `.env` file or reuse the example administrator password in production.
 
-Set `MCCG_ANALYTICS_PROVIDER` to `google` with `MCCG_GOOGLE_TAG_ID`, `MCCG_GOOGLE_TAG_MANAGER_ID`, and `MCCG_GOOGLE_ADS_CONVERSION_SEND_TO`, or to `plausible` with `MCCG_PLAUSIBLE_DOMAIN`. The Google tag and Tag Manager container use Consent Mode with advertising and analytics storage denied by default. A Google Ads lead conversion is sent only after a successful contact request and visitor consent. Plausible renders without the Google cookie notice.
+Set `MCCG_ANALYTICS_PROVIDER` to `google` with `MCCG_GOOGLE_TAG_ID`, `MCCG_GOOGLE_TAG_MANAGER_ID`, and `MCCG_GOOGLE_ADS_CONVERSION_SEND_TO`, or to `plausible` with `MCCG_PLAUSIBLE_DOMAIN`. The Google tag and Tag Manager container use Consent Mode with advertising and analytics storage denied by default. A successful contact request emits one `mccg_generate_lead` dataLayer event and, when `MCCG_GOOGLE_ADS_CONVERSION_SEND_TO` is set, one Google Ads conversion with a `transaction_id`, both only after visitor consent. Set `MCCG_GOOGLE_ADS_CONVERSION_SEND_TO` empty when the Google Ads tag is configured in Tag Manager instead. See [GOOGLE_ADS_TRACKING.md](GOOGLE_ADS_TRACKING.md). Plausible renders without the Google cookie notice.
 
 ## 16. Local installation
 
@@ -736,17 +736,19 @@ The feature suite currently verifies:
 - Marrakech, Casablanca, and Dubai map slides render with accessible carousel markup.
 - Main marketing pages do not contain the prohibited regulated-status claims covered by the compliance test.
 - Current compliant service names, SEO positioning, structured data, and footer disclaimer are present.
-- Casablanca renders a safe fallback and only Marrakech/Dubai render map iframes by default.
+- Marrakech, Casablanca, and Dubai each render a map iframe by default.
 - Empty, incomplete, Google, and Plausible analytics configurations render the correct scripts and consent UI.
 - The Google Ads lead event renders only after a successful contact submission.
+- The lead tracker emits once per submission, respects consent, and sends no personal data (`npm test`).
 
 Run:
 
 ```powershell
 composer test
+npm test
 ```
 
-Current result: **28 tests passing, 260 assertions**.
+Current result: **32 PHP tests passing (297 assertions) and 11 JavaScript tests passing**.
 
 ## 19. Deployment
 
@@ -782,8 +784,8 @@ The current application is production-oriented but the following enhancements re
 1. Move legal-page body content into editable page records if marketers must manage it.
 2. Add image conversions and responsive WebP/AVIF variants for uploaded article images.
 3. Add automated database and uploaded-file backups on the production host.
-4. Validate the Google tag and lead conversion in Google Ads diagnostics after production deployment.
-5. Obtain and configure the verified Casablanca address and Google Maps location; the public slide remains safely disabled until then.
+4. Validate the Google tag and lead conversion in Google Ads diagnostics after production deployment ([GOOGLE_ADS_TRACKING.md](GOOGLE_ADS_TRACKING.md)).
+5. Add the full Casablanca street address (the map location is already configured).
 6. Configure and monitor a persistent production queue worker for contact mail delivery.
 7. Obtain a final legal review of the public wording and disclaimer before launch; the application avoids unverified regulated-status claims but repository documentation is not legal advice.
 

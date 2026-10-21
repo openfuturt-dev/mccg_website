@@ -1,2 +1,16 @@
-@props(['eyebrow','title','text'])
-<section class="relative overflow-hidden border-b border-slate-200 bg-white py-14 sm:py-20 lg:py-24"><div class="absolute -right-24 top-0 size-64 rounded-full border border-coral/10 sm:size-72"></div><div class="container-site relative"><div class="reveal" data-reveal><p class="eyebrow">{{ $eyebrow }}</p><h1 class="mt-4 max-w-4xl break-words font-heading text-3xl font-bold leading-tight text-charcoal sm:mt-5 sm:text-4xl lg:text-5xl">{{ $title }}</h1><p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">{{ $text }}</p><span class="section-title-line" aria-hidden="true"></span></div></div></section>
+@props(['eyebrow', 'title', 'text'])
+<section class="relative isolate overflow-hidden border-b border-line bg-white">
+    <div class="bg-zellige mask-radial-tr absolute inset-y-0 right-0 -z-10 w-full opacity-[.06] sm:w-2/3" aria-hidden="true"></div>
+    <div class="absolute -right-40 -top-40 -z-10 size-[28rem] rounded-full bg-coral/10 blur-3xl" aria-hidden="true"></div>
+    <div class="container-site py-14 sm:py-20 lg:py-24">
+        <nav class="flex items-center gap-2 text-xs font-medium text-slate-400" aria-label="Fil d’Ariane" data-hero>
+            <a href="{{ route('accueil') }}" class="hover:text-coral">Accueil</a>
+            <x-line-icon name="chevron-right" class="size-3.5" />
+            <span class="text-slate-600">{{ $eyebrow }}</span>
+        </nav>
+        <p class="eyebrow mt-8 sm:mt-10" data-hero>{{ $eyebrow }}</p>
+        <h1 class="display-title mt-5 max-w-4xl break-words !text-[2rem] sm:!text-5xl lg:!text-[3.4rem]" data-split>{{ $title }}</h1>
+        <p class="lead mt-6 max-w-2xl" data-hero>{{ $text }}</p>
+        <span class="section-title-line is-inview" aria-hidden="true"></span>
+    </div>
+</section>

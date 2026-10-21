@@ -187,7 +187,7 @@ Tester périodiquement une restauration sur un environnement séparé. Une sauve
 - Donner les droits d’écriture au serveur web uniquement sur `storage` et `bootstrap/cache`.
 - Exécuter `php artisan optimize:clear && php artisan optimize` après une modification de configuration.
 - Vérifier `/sitemap.xml`, `/robots.txt`, `/admin` et le formulaire de contact après chaque mise en ligne.
-- Laisser les URL Casablanca vides tant que l’adresse et les coordonnées ne sont pas confirmées.
+- Les cartes Marrakech, Casablanca et Dubaï ont des valeurs par défaut dans `config/mccg.php`. Si le `.env` de production contient `MCCG_CASABLANCA_MAPS_URL=""` ou `MCCG_CASABLANCA_MAPS_EMBED_URL=""`, ces valeurs vides masquent la carte : les supprimer ou les remplir comme dans `.env.example`, puis exécuter `php artisan optimize:clear && php artisan optimize`.
 
 Le sitemap est généré dynamiquement : tout article publié ou service actif apparaît automatiquement, sans tâche cron dédiée.
 
