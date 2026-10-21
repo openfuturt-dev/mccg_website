@@ -43,7 +43,7 @@ const setMobileMenu = (isOpen) => {
     toggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
     menu.setAttribute('aria-hidden', String(!isOpen));
     menu.inert = !isOpen;
-    document.body.classList.toggle('mobile-menu-open', isOpen);
+    document.documentElement.classList.toggle('mobile-menu-open', isOpen);
 };
 
 if (menu) menu.inert = true;
@@ -51,7 +51,7 @@ if (menu) menu.inert = true;
 toggle?.addEventListener('click', () => {
     const isOpen = !menu.classList.contains('is-open');
     setMobileMenu(isOpen);
-    if (isOpen) menu.querySelector('a')?.focus();
+    if (isOpen) menu.querySelector('a')?.focus({ preventScroll: true });
 });
 
 menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {

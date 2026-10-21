@@ -177,7 +177,8 @@
         visibility: hidden;
     }
     .mobile-menu-panel.is-open { opacity: 1; pointer-events: auto; transform: none; visibility: visible; }
-    body.mobile-menu-open { overflow: hidden; }
+    html.mobile-menu-open { overflow: hidden; }
+    .mobile-menu-panel { overscroll-behavior: contain; }
     .menu-icon-close { display: none; }
     [aria-expanded='true'] > .menu-icon-open { display: none; }
     [aria-expanded='true'] > .menu-icon-close { display: block; }
