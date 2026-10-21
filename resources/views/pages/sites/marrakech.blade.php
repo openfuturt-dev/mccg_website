@@ -9,6 +9,7 @@
     image-alt="La Koutoubia et la place Jemaa el-Fna à Marrakech"
     image-width="1260"
     image-height="840"
+    :image-srcset="asset('images/marrakech-800.webp').' 800w, '.asset('images/marrakech.webp').' 1260w'"
     region="Guéliz · Marrakech · Maroc"
     :badges="['Expertise locale', 'Conseil sur mesure', 'Vision pluridisciplinaire']"
     about-lead="Entreprises, entrepreneurs et investisseurs évoluent dans un environnement qui exige précision et réactivité. Nous réunissons les expertises essentielles pour vous donner une lecture juste de votre activité."

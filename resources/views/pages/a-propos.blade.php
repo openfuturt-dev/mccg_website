@@ -39,7 +39,7 @@
         <div class="mt-12 grid gap-5 sm:mt-16 md:grid-cols-3 md:gap-6" data-stagger>
             @foreach([['01', 'ear', 'Écouter', 'Comprendre votre réalité avant de proposer une réponse.'], ['02', 'lightbulb', 'Éclairer', 'Rendre les sujets complexes lisibles et actionnables.'], ['03', 'flag', 'S’engager', 'Suivre les décisions et rester disponible dans la durée.']] as [$n, $icon, $t, $d])
                 <div class="card card-interactive group relative overflow-hidden p-7 sm:p-9" data-reveal>
-                    <span class="pointer-events-none absolute -right-2 -top-6 font-heading text-[7rem] font-bold leading-none text-mist transition-colors duration-500 group-hover:text-coral-50" aria-hidden="true">{{ $n }}</span>
+                    <span class="pointer-events-none absolute -right-2 -top-6 font-heading text-[7rem] font-bold leading-none text-mist transition-colors duration-300 group-hover:text-coral-50" aria-hidden="true">{{ $n }}</span>
                     <span class="icon-badge icon-badge-fill relative"><x-line-icon :name="$icon" class="size-5" /></span>
                     <h3 class="relative mt-8 font-heading text-xl font-bold text-charcoal">{{ $t }}</h3>
                     <p class="relative mt-3 leading-7 text-slate-600">{{ $d }}</p>

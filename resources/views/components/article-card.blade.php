@@ -6,7 +6,7 @@
         @else
             <div class="bg-zellige grid h-full place-items-center bg-mist [background-size:48px]"><div class="grid h-full w-full place-items-center bg-mist/80"><img src="{{ asset('images/logo-mccg.png') }}" alt="" class="img-zoom w-36 opacity-50" width="233" height="56" loading="lazy"></div></div>
         @endif
-        <span class="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-coral shadow-soft backdrop-blur">{{ $article->category?->name ?? 'Conseil' }}</span>
+        <span class="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-coral shadow-soft">{{ $article->category?->name ?? 'Conseil' }}</span>
     </div>
     <div class="flex grow flex-col p-6 sm:p-7">
         <time class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ $article->published_at?->translatedFormat('d M Y') }}</time>

@@ -1,6 +1,6 @@
 @props(['title', 'text', 'icon' => 'target', 'dark' => false])
 <article @class([
-    'group relative rounded-xl p-7 transition duration-500 ease-premium sm:p-8',
+    'group relative rounded-xl p-7 transition duration-300 ease-premium sm:p-8',
     'border border-white/10 bg-white/[.04] hover:border-coral/50 hover:bg-white/[.07]' => $dark,
     'card card-interactive' => ! $dark,
 ]) data-reveal>

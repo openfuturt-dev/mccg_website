@@ -45,7 +45,7 @@
                 ['trending-up', 'Performance', 'Des conseils concrets pour optimiser vos résultats et sécuriser votre avenir.'],
             ] as [$icon, $title, $text])
                 <div class="group flex gap-5 border-b border-line p-7 last:border-b-0 sm:p-8 md:flex-col md:items-center md:border-b-0 md:border-r md:text-center md:last:border-r-0 lg:p-10" data-reveal>
-                    <span class="icon-badge-soft transition duration-500 ease-premium group-hover:-translate-y-1 group-hover:shadow-lift"><x-line-icon :name="$icon" class="size-7" stroke="1.4" /></span>
+                    <span class="icon-badge-soft transition duration-300 ease-premium group-hover:-translate-y-1 group-hover:shadow-lift"><x-line-icon :name="$icon" class="size-7" stroke="1.4" /></span>
                     <div>
                         <h2 class="font-heading text-lg font-bold text-charcoal md:mt-2">{{ $title }}</h2>
                         <p class="mt-2 text-sm leading-6 text-slate-600">{{ $text }}</p>
@@ -78,7 +78,7 @@
     <div class="container-site grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-16">
         <div class="relative lg:col-span-6">
             <div class="relative overflow-hidden rounded-2xl" data-reveal-image>
-                <img src="{{ asset('images/marrakech.webp') }}" alt="Marrakech, siège du cabinet MCCG" class="aspect-[5/4] w-full object-cover" width="1260" height="840" loading="lazy" data-parallax>
+                <img src="{{ asset('images/marrakech-800.webp') }}" srcset="{{ asset('images/marrakech-800.webp') }} 800w, {{ asset('images/marrakech.webp') }} 1260w" sizes="(min-width: 1024px) 600px, 100vw" alt="Marrakech, siège du cabinet MCCG" class="aspect-[5/4] w-full object-cover" width="1260" height="840" loading="lazy" decoding="async" data-parallax>
             </div>
             <div class="bg-zellige absolute -bottom-8 -left-8 -z-10 size-48 opacity-20" aria-hidden="true"></div>
             <div class="absolute -bottom-8 right-4 max-w-[17rem] rounded-xl bg-charcoal p-6 text-white shadow-lift sm:right-8" data-reveal>
@@ -111,7 +111,7 @@
 {{-- Why MCCG (dark band). --}}
 <section class="section-space relative isolate overflow-hidden bg-charcoal">
     <div class="bg-zellige-light mask-radial absolute left-1/2 top-1/2 -z-10 size-[60rem] -translate-x-1/2 -translate-y-1/2 opacity-[.05]" aria-hidden="true"></div>
-    <div class="absolute -bottom-40 -left-40 -z-10 size-96 rounded-full bg-coral/20 blur-3xl" aria-hidden="true"></div>
+    <div class="absolute -bottom-40 -left-40 -z-10 size-96 glow glow-20" aria-hidden="true"></div>
     <div class="container-site">
         <x-section-title eyebrow="Pourquoi MCCG" title="Un partenaire structuré autour de votre performance" text="Notre manière de travailler privilégie la clarté, la responsabilité et l’utilité concrète de chaque recommandation." align="center" dark />
         <div class="mt-14 grid gap-5 sm:mt-16 md:grid-cols-2 md:gap-6 lg:grid-cols-4" data-stagger>

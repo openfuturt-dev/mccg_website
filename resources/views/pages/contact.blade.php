@@ -20,12 +20,12 @@
             <p class="mt-5 leading-8 text-slate-600">Qu’il s’agisse d’une question ponctuelle, d’un projet de création ou d’un accompagnement dans la durée, nous prendrons le temps de comprendre votre contexte.</p>
 
             <div class="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                <a class="card group flex items-center gap-4 p-5 transition duration-500 ease-premium hover:border-coral/40 hover:shadow-lift" href="tel:{{ preg_replace('/\s+/', '', $phone) }}">
+                <a class="card group flex items-center gap-4 p-5 transition duration-300 ease-premium hover:border-coral/40 hover:shadow-lift" href="tel:{{ preg_replace('/\s+/', '', $phone) }}">
                     <span class="icon-badge icon-badge-fill !size-11"><x-line-icon name="phone" class="size-5" /></span>
                     <span class="grow"><span class="block text-[11px] font-semibold uppercase tracking-[.18em] text-slate-400">Téléphone</span><span class="mt-1 block font-semibold text-charcoal group-hover:text-coral">{{ $phone }}</span></span>
                     <x-line-icon name="arrow-up-right" class="size-4 text-slate-300 transition group-hover:text-coral" />
                 </a>
-                <a class="card group flex min-w-0 items-center gap-4 p-5 transition duration-500 ease-premium hover:border-coral/40 hover:shadow-lift" href="mailto:{{ $email }}">
+                <a class="card group flex min-w-0 items-center gap-4 p-5 transition duration-300 ease-premium hover:border-coral/40 hover:shadow-lift" href="mailto:{{ $email }}">
                     <span class="icon-badge icon-badge-fill !size-11"><x-line-icon name="mail" class="size-5" /></span>
                     <span class="min-w-0 grow"><span class="block text-[11px] font-semibold uppercase tracking-[.18em] text-slate-400">E-mail</span><span class="mt-1 block break-all font-semibold text-charcoal group-hover:text-coral">{{ $email }}</span></span>
                     <x-line-icon name="arrow-up-right" class="size-4 shrink-0 text-slate-300 transition group-hover:text-coral" />
@@ -75,7 +75,7 @@
         </div>
 
         <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-lift">
-            <div class="flex transition-transform duration-500 ease-out" data-office-track>
+            <div class="flex transition-transform duration-300 ease-out" data-office-track>
                 @foreach($officeLocations as $index => $office)
                     <article class="grid min-w-full lg:grid-cols-[.7fr_1.3fr]" id="office-panel-{{ $index }}" role="tabpanel" aria-label="Bureau MCCG {{ $office['city'] }}" data-office-panel>
                         <div class="flex flex-col justify-center p-6 sm:p-10 lg:p-12">
@@ -93,7 +93,7 @@
                         </div>
                         <div class="min-h-72 bg-mist sm:min-h-80 lg:min-h-[460px]">
                             @if($office['embed_url'])
-                                <iframe class="h-full min-h-72 w-full sm:min-h-80 lg:min-h-[460px]" src="{{ $office['embed_url'] }}" title="Carte du bureau MCCG à {{ $office['city'] }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                                <iframe class="h-full min-h-72 w-full sm:min-h-80 lg:min-h-[460px]" @if($index === 0) src="{{ $office['embed_url'] }}" @else data-src="{{ $office['embed_url'] }}" @endif title="Carte du bureau MCCG à {{ $office['city'] }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
                             @else
                                 <div class="grid h-full min-h-80 place-items-center p-8 text-center lg:min-h-[460px]" data-map-fallback="{{ $office['city'] }}"><div><span class="mx-auto grid size-16 place-items-center rounded-full bg-white text-coral shadow-sm">⌖</span><p class="mt-5 font-heading text-xl font-bold text-charcoal">Bureau {{ $office['city'] }}</p><p class="mt-3 text-slate-600">{{ $office['address'] }}</p></div></div>
                             @endif

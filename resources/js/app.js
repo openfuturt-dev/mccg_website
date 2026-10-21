@@ -19,13 +19,20 @@ document.querySelectorAll('[data-contact-form]').forEach((form) => {
     });
 });
 
-const { lenis } = initMotion();
+initMotion();
 
 const navbar = document.querySelector('[data-navbar]');
 const toggle = document.getElementById('menu-toggle');
 const menu = document.getElementById('mobile-menu');
 
-const updateNavbar = () => navbar?.classList.toggle('is-scrolled', window.scrollY > 12);
+// Only touch the DOM when the scrolled state actually flips.
+let navbarScrolled = null;
+const updateNavbar = () => {
+    const scrolled = window.scrollY > 12;
+    if (scrolled === navbarScrolled) return;
+    navbarScrolled = scrolled;
+    navbar?.classList.toggle('is-scrolled', scrolled);
+};
 updateNavbar();
 window.addEventListener('scroll', updateNavbar, { passive: true });
 
@@ -37,8 +44,6 @@ const setMobileMenu = (isOpen) => {
     menu.setAttribute('aria-hidden', String(!isOpen));
     menu.inert = !isOpen;
     document.body.classList.toggle('mobile-menu-open', isOpen);
-    if (isOpen) lenis?.stop();
-    else lenis?.start();
 };
 
 if (menu) menu.inert = true;
@@ -107,6 +112,12 @@ document.querySelectorAll('[data-office-carousel]').forEach((carousel) => {
             tab.classList.toggle('border-slate-200', !active);
             tab.classList.toggle('bg-white', !active);
             tab.classList.toggle('text-charcoal', !active);
+        });
+
+        // Maps load only when their office is shown (each Google Maps embed is heavy).
+        panels[activeIndex].querySelectorAll('iframe[data-src]').forEach((frame) => {
+            frame.src = frame.dataset.src;
+            frame.removeAttribute('data-src');
         });
 
         panels.forEach((panel, panelIndex) => {

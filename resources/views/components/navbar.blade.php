@@ -2,9 +2,9 @@
     $phone = config('mccg.phone');
     $email = config('mccg.email');
     $sites = [
-        ['route' => 'marrakech', 'city' => 'Marrakech', 'label' => 'Bureau principal · Maroc', 'image' => 'marrakech.webp'],
-        ['route' => 'casablanca', 'city' => 'Casablanca', 'label' => 'Maroc', 'image' => 'casa.webp'],
-        ['route' => 'dubai', 'city' => 'Dubaï', 'label' => 'Émirats arabes unis', 'image' => 'dubai.webp'],
+        ['route' => 'marrakech', 'city' => 'Marrakech', 'label' => 'Bureau principal · Maroc', 'image' => 'marrakech-thumb.webp'],
+        ['route' => 'casablanca', 'city' => 'Casablanca', 'label' => 'Maroc', 'image' => 'casa-thumb.webp'],
+        ['route' => 'dubai', 'city' => 'Dubaï', 'label' => 'Émirats arabes unis', 'image' => 'dubai-thumb.webp'],
     ];
 @endphp
 
@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<header class="site-navbar sticky top-0 z-50 border-b border-transparent bg-white/95 backdrop-blur-xl" data-navbar>
+<header class="site-navbar sticky top-0 z-50 border-b border-transparent bg-white" data-navbar>
     <div class="navbar-row container-site flex h-16 items-center justify-between sm:h-20">
         <a href="{{ route('accueil') }}" class="flex shrink-0 items-center" aria-label="MCCG — Accueil">
             <img src="{{ asset('images/logo-mccg.png') }}" alt="MCCG" class="h-9 w-auto sm:h-10" width="233" height="56">
@@ -42,7 +42,7 @@
                     <p class="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[.2em] text-slate-400">Nos implantations</p>
                     @foreach($sites as $site)
                         <a class="office-menu__link {{ request()->routeIs($site['route']) ? 'is-active' : '' }}" href="{{ route($site['route']) }}">
-                            <img src="{{ asset('images/'.$site['image']) }}" alt="" width="48" height="48" loading="lazy">
+                            <img src="{{ asset('images/'.$site['image']) }}" alt="" width="48" height="48" loading="lazy" decoding="async">
                             <span class="min-w-0 grow">
                                 <span class="office-menu__city block font-heading text-sm font-bold">{{ $site['city'] }}</span>
                                 <span class="block text-xs font-medium text-slate-500">{{ $site['label'] }}</span>
@@ -64,7 +64,7 @@
 
     <span class="scroll-progress absolute inset-x-0 bottom-0 block h-0.5 bg-coral" data-scroll-progress aria-hidden="true"></span>
 
-    <nav id="mobile-menu" class="mobile-menu-panel absolute inset-x-0 top-full border-t border-line bg-white shadow-lift lg:hidden" aria-label="Navigation mobile" aria-hidden="true" data-lenis-prevent>
+    <nav id="mobile-menu" class="mobile-menu-panel absolute inset-x-0 top-full border-t border-line bg-white shadow-lift lg:hidden" aria-label="Navigation mobile" aria-hidden="true">
         <div class="container-site flex max-h-[calc(100dvh-4rem)] flex-col overflow-y-auto py-5 sm:max-h-[calc(100dvh-5rem)]">
             <div class="flex flex-col font-heading text-lg font-semibold text-charcoal">
                 @foreach([['accueil', 'Accueil', 'accueil'], ['a-propos', 'À propos', 'a-propos'], ['services.index', 'Services', 'services.*'], ['articles.index', 'Articles', 'articles.*'], ['contact', 'Contact', 'contact']] as [$route, $label, $pattern])
@@ -75,7 +75,7 @@
             <div class="grid grid-cols-3 gap-2">
                 @foreach($sites as $site)
                     <a class="group relative overflow-hidden rounded-lg" href="{{ route($site['route']) }}">
-                        <img src="{{ asset('images/'.$site['image']) }}" alt="" class="img-zoom aspect-[4/3] w-full object-cover" width="160" height="120" loading="lazy">
+                        <img src="{{ asset('images/'.$site['image']) }}" alt="" class="img-zoom aspect-[4/3] w-full object-cover" width="160" height="120" loading="lazy" decoding="async">
                         <span class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></span>
                         <span class="absolute inset-x-0 bottom-0 p-2 text-center text-xs font-semibold text-white">{{ $site['city'] }}</span>
                     </a>

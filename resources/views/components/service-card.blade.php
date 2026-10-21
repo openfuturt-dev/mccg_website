@@ -10,7 +10,7 @@
     };
 @endphp
 <article class="card card-interactive group relative flex h-full flex-col overflow-hidden p-7 sm:p-8" data-reveal>
-    <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-500 ease-premium group-hover:scale-x-100" aria-hidden="true"></span>
+    <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-300 ease-premium group-hover:scale-x-100" aria-hidden="true"></span>
     <div class="flex items-start justify-between">
         <span class="icon-badge icon-badge-fill"><x-line-icon :name="$icon" class="size-5" /></span>
         @if($index)<span class="font-heading text-sm font-semibold tracking-[.15em] text-slate-300">{{ str_pad($index, 2, '0', STR_PAD_LEFT) }}</span>@endif

@@ -7,6 +7,7 @@
     'imageAlt',
     'imageWidth',
     'imageHeight',
+    'imageSrcset' => null,
     'region',
     'badges' => [],
     'aboutLead',
@@ -27,7 +28,7 @@
     {{-- Hero. --}}
     <section class="relative isolate flex min-h-[620px] items-end overflow-hidden bg-ink text-white lg:min-h-[720px]">
         <div class="absolute inset-0 -z-10" data-reveal-image data-hero-image>
-            <img src="{{ asset('images/'.$image) }}" alt="{{ $imageAlt }}" class="h-full w-full object-cover" width="{{ $imageWidth }}" height="{{ $imageHeight }}" fetchpriority="high" data-parallax>
+            <img src="{{ asset('images/'.$image) }}" srcset="{{ $imageSrcset ?: asset('images/'.$image).' '.$imageWidth.'w' }}" sizes="100vw" alt="{{ $imageAlt }}" class="h-full w-full object-cover" width="{{ $imageWidth }}" height="{{ $imageHeight }}" fetchpriority="high" data-parallax>
         </div>
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/55 to-black/10" aria-hidden="true"></div>
         <div class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true"></div>
@@ -83,14 +84,14 @@
 
             <div class="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:mt-16 md:grid-cols-2 lg:grid-cols-3" data-stagger>
                 @forelse($services as $service)
-                    <a href="{{ route('services.show', $service) }}" class="group relative min-h-64 overflow-hidden bg-white p-7 transition-colors duration-500 hover:bg-charcoal sm:p-9" data-reveal>
-                        <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-500 ease-premium group-hover:scale-x-100" aria-hidden="true"></span>
+                    <a href="{{ route('services.show', $service) }}" class="group relative min-h-64 overflow-hidden bg-white p-7 transition-colors duration-300 hover:bg-charcoal sm:p-9" data-reveal>
+                        <span class="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-coral transition-transform duration-300 ease-premium group-hover:scale-x-100" aria-hidden="true"></span>
                         <div class="flex items-center justify-between">
                             <span class="font-heading text-xs font-semibold tracking-[.18em] text-coral">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                            <span class="grid size-10 place-items-center rounded-full border border-line text-charcoal transition duration-500 ease-premium group-hover:rotate-45 group-hover:border-coral group-hover:bg-coral group-hover:text-white" aria-hidden="true"><x-line-icon name="arrow-up-right" class="size-4" stroke="2" /></span>
+                            <span class="grid size-10 place-items-center rounded-full border border-line text-charcoal transition duration-300 ease-premium group-hover:rotate-45 group-hover:border-coral group-hover:bg-coral group-hover:text-white" aria-hidden="true"><x-line-icon name="arrow-up-right" class="size-4" stroke="2" /></span>
                         </div>
-                        <h3 class="mt-12 font-heading text-xl font-bold text-charcoal transition-colors duration-500 group-hover:text-white sm:text-2xl">{{ $service->title }}</h3>
-                        <p class="mt-4 max-w-xs text-sm leading-7 text-slate-500 transition-colors duration-500 group-hover:text-white/65">{{ $service->short_description }}</p>
+                        <h3 class="mt-12 font-heading text-xl font-bold text-charcoal transition-colors duration-300 group-hover:text-white sm:text-2xl">{{ $service->title }}</h3>
+                        <p class="mt-4 max-w-xs text-sm leading-7 text-slate-500 transition-colors duration-300 group-hover:text-white/65">{{ $service->short_description }}</p>
                     </a>
                 @empty
                     <p class="col-span-full bg-white px-6 py-12 text-center text-slate-500">Nos services seront bientôt disponibles.</p>
@@ -160,7 +161,7 @@
     {{-- Final call to action. --}}
     <section class="relative isolate overflow-hidden bg-charcoal py-20 text-white sm:py-24 lg:py-28">
         <div class="bg-zellige-light mask-fade-right absolute inset-y-0 right-0 -z-10 w-2/3 opacity-[.07]" aria-hidden="true"></div>
-        <div class="absolute -right-24 -top-40 -z-10 size-96 rounded-full bg-coral/20 blur-3xl" aria-hidden="true"></div>
+        <div class="absolute -right-24 -top-40 -z-10 size-96 glow glow-20" aria-hidden="true"></div>
         <div class="container-site grid gap-10 lg:grid-cols-12 lg:items-end">
             <div class="lg:col-span-8" data-reveal>
                 <p class="eyebrow">MCCG {{ $city }}</p>

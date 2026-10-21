@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/montserrat';
-@import 'lenis/dist/lenis.css';
 
 @source '../views/**/*.blade.php';
 @source '../../app/**/*.php';
@@ -56,6 +55,7 @@
 
 @layer base {
     html, body { max-width: 100%; overflow-x: clip; }
+    html { scroll-padding-top: 6rem; }
     body { font-family: var(--font-sans); font-feature-settings: 'kern', 'cv11'; text-rendering: optimizeLegibility; }
     h1, h2, h3, h4, h5, h6, nav { font-family: var(--font-heading); }
     h1, h2, h3 { text-wrap: balance; }
@@ -80,7 +80,7 @@
 
     /* Buttons, as specified in the "Style UI" panel. */
     .btn-primary, .btn-gold {
-        @apply relative isolate inline-flex min-h-12 items-center justify-center gap-3 overflow-hidden rounded-md bg-coral px-6 py-3 text-center text-sm font-semibold tracking-[.01em] text-white shadow-coral transition duration-300 ease-premium hover:-translate-y-px hover:bg-coral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70;
+        @apply relative isolate inline-flex min-h-12 items-center justify-center gap-3 overflow-hidden rounded-md bg-coral px-6 py-3 text-center text-sm font-semibold tracking-[.01em] text-white shadow-coral transition duration-200 ease-out hover:-translate-y-px hover:bg-coral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70;
     }
     .btn-primary::after, .btn-gold::after {
         content: '';
@@ -89,13 +89,13 @@
         z-index: -1;
         background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / .22) 50%, transparent 70%);
         transform: translateX(-120%);
-        transition: transform .8s var(--ease-premium);
+        transition: transform .6s var(--ease-premium);
     }
     .btn-primary:hover::after, .btn-gold:hover::after { transform: translateX(120%); }
-    .btn-secondary { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-[#d9d9d9] bg-white px-6 py-3 text-center text-sm font-semibold text-charcoal transition duration-300 ease-premium hover:-translate-y-px hover:border-charcoal hover:shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/30; }
-    .btn-outline { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-coral/70 bg-white px-6 py-3 text-center text-sm font-semibold text-coral transition duration-300 ease-premium hover:bg-coral hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/30; }
-    .btn-outline-light { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-white/30 px-6 py-3 text-center text-sm font-semibold text-white backdrop-blur-sm transition duration-300 ease-premium hover:border-white hover:bg-white hover:text-charcoal focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40; }
-    .btn-arrow { @apply size-4 shrink-0 transition-transform duration-300 ease-premium; }
+    .btn-secondary { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-[#d9d9d9] bg-white px-6 py-3 text-center text-sm font-semibold text-charcoal transition duration-200 ease-out hover:-translate-y-px hover:border-charcoal hover:shadow-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/30; }
+    .btn-outline { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-coral/70 bg-white px-6 py-3 text-center text-sm font-semibold text-coral transition duration-200 ease-out hover:bg-coral hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/30; }
+    .btn-outline-light { @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-md border border-white/30 px-6 py-3 text-center text-sm font-semibold text-white backdrop-blur-sm transition duration-200 ease-out hover:border-white hover:bg-white hover:text-charcoal focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40; }
+    .btn-arrow { @apply size-4 shrink-0 transition-transform duration-200 ease-out; }
     :is(.btn-primary, .btn-secondary, .btn-outline, .btn-outline-light, .btn-gold, .group):hover .btn-arrow { transform: translateX(4px); }
 
     .link-arrow {
@@ -108,14 +108,14 @@
 
     /* Navigation. */
     .nav-link { @apply relative py-2 transition-colors hover:text-charcoal; }
-    .nav-link::after { content: ''; @apply absolute -bottom-0.5 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full bg-coral transition-transform duration-300 ease-premium; }
+    .nav-link::after { content: ''; @apply absolute -bottom-0.5 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full bg-coral transition-transform duration-200 ease-out; }
     .nav-link:hover::after, .nav-link.active::after { @apply scale-x-100; }
     .nav-link.active { @apply text-charcoal; }
 
     /* Cards and icon badges (see "Carte / Bloc" and "Iconographie"). */
     .card { @apply rounded-xl border border-line bg-white shadow-soft; }
-    .card-interactive { @apply transition duration-500 ease-premium hover:-translate-y-1 hover:border-coral/30 hover:shadow-lift; }
-    .icon-badge { @apply grid size-12 shrink-0 place-items-center rounded-full border border-coral/30 bg-white text-coral transition duration-500 ease-premium; }
+    .card-interactive { @apply transition duration-300 ease-out hover:-translate-y-1 hover:border-coral/30 hover:shadow-lift; }
+    .icon-badge { @apply grid size-12 shrink-0 place-items-center rounded-full border border-coral/30 bg-white text-coral transition duration-300 ease-out; }
     .group:hover .icon-badge-fill { @apply border-coral bg-coral text-white; }
     .icon-badge-soft { @apply grid size-16 shrink-0 place-items-center rounded-full bg-white text-coral shadow-soft ring-1 ring-line; }
 
@@ -145,6 +145,11 @@
 
 @layer utilities {
     .bg-zellige { background-image: var(--zellige-dark); background-size: 64px 64px; }
+    /* Soft coral glow drawn with a gradient instead of a blur filter (much cheaper to paint). */
+    .glow { border-radius: 9999px; background: radial-gradient(closest-side, rgb(232 76 100 / var(--glow-alpha, .2)), transparent); }
+    .glow-10 { --glow-alpha: .14; }
+    .glow-20 { --glow-alpha: .3; }
+    .glow-25 { --glow-alpha: .38; }
     .bg-zellige-light { background-image: var(--zellige-light); background-size: 64px 64px; }
     .mask-fade-right { mask-image: linear-gradient(to left, #000 10%, transparent 75%); }
     .mask-fade-left { mask-image: linear-gradient(to right, #000 10%, transparent 75%); }
@@ -156,21 +161,19 @@
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
     }
-    .js .highlight-underline { background-size: 0 .16em; transition: background-size 1s var(--ease-premium) .7s; }
+    .js .highlight-underline { background-size: 0 .16em; transition: background-size .6s var(--ease-premium) .35s; }
     .js .is-split .highlight-underline, .no-motion .highlight-underline { background-size: 100% .16em; }
 
     /* Header. */
-    .site-navbar { transition: box-shadow .4s ease-out, background-color .4s ease-out, border-color .4s ease-out; }
-    .site-navbar .navbar-row { transition: height .4s var(--ease-premium); }
-    .site-navbar.is-scrolled { background: rgb(255 255 255 / .86); border-color: rgb(230 230 230 / .9); box-shadow: 0 10px 30px -18px rgb(38 38 38 / .25); }
-    @media (min-width: 1024px) { .site-navbar.is-scrolled .navbar-row { height: 4.25rem; } }
+    .site-navbar { transition: box-shadow .25s ease-out, border-color .25s ease-out; }
+    .site-navbar.is-scrolled { border-color: var(--color-line); box-shadow: 0 10px 30px -18px rgb(38 38 38 / .25); }
     .scroll-progress { transform: scaleX(0); transform-origin: left; }
 
     .mobile-menu-panel {
         opacity: 0;
         pointer-events: none;
         transform: translate3d(0, -8px, 0);
-        transition: opacity .25s ease-out, transform .4s var(--ease-premium), visibility .4s;
+        transition: opacity .2s ease-out, transform .25s var(--ease-premium), visibility .25s;
         visibility: hidden;
     }
     .mobile-menu-panel.is-open { opacity: 1; pointer-events: auto; transform: none; visibility: visible; }
@@ -218,13 +221,13 @@
 
     .section-title-line { display: block; height: 3px; width: 48px; margin-top: 1.5rem; border-radius: 999px; background: #e84c64; }
     .text-center .section-title-line { margin-inline: auto; }
-    .js .section-title-line { transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease-premium) .25s; }
+    .js .section-title-line { transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease-premium) .15s; }
     .js .text-center .section-title-line { transform-origin: center; }
     .js .is-inview .section-title-line, .js .is-inview.section-title-line, .no-motion .section-title-line { transform: scaleX(1); }
 
     .hover-lift { transition: transform .4s var(--ease-premium), box-shadow .4s var(--ease-premium), border-color .4s ease; }
     .hover-lift:hover { transform: translate3d(0, -4px, 0); }
-    .img-zoom { transition: transform 1.1s var(--ease-premium); }
+    .img-zoom { transition: transform .6s var(--ease-premium); }
     .group:hover .img-zoom { transform: scale(1.05); }
 
     .form-error { animation: error-in .3s ease-out both; }
@@ -240,7 +243,7 @@
 }
 
 .split-line { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
-.split-word { display: inline-block; will-change: transform; }
+.split-word { display: inline-block; }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }

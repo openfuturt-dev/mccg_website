@@ -2,7 +2,7 @@
 @section('content')
 <section class="relative isolate overflow-hidden border-b border-line bg-white">
     <div class="bg-zellige mask-radial-tr absolute inset-y-0 right-0 -z-10 w-full opacity-[.06] sm:w-2/3" aria-hidden="true"></div>
-    <div class="absolute -right-40 -top-40 -z-10 size-[28rem] rounded-full bg-coral/10 blur-3xl" aria-hidden="true"></div>
+    <div class="absolute -right-40 -top-40 -z-10 size-[28rem] glow glow-10" aria-hidden="true"></div>
     <div class="container-site py-14 sm:py-20 lg:py-24">
         <nav class="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-400" aria-label="Fil d’Ariane" data-hero>
             <a href="{{ route('accueil') }}" class="hover:text-coral">Accueil</a>
