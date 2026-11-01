@@ -1,4 +1,4 @@
-@extends('layouts.app', ['seoTitle' => $service->meta_title ?: $service->title.' — MCCG', 'seoDescription' => $service->meta_description ?: $service->short_description])
+@extends('layouts.app', ['seoTitle' => $service->meta_title ?: $service->title.' — MCCG', 'seoDescription' => $service->meta_description ?: $service->short_description, 'seoKeywords' => $service->keywords])
 @section('content')
 <section class="relative isolate overflow-hidden border-b border-line bg-white">
     <div class="bg-zellige mask-radial-tr absolute inset-y-0 right-0 -z-10 w-full opacity-[.06] sm:w-2/3" aria-hidden="true"></div>

@@ -28,6 +28,7 @@ class ServiceForm
                 Section::make('Référencement SEO')->schema([
                     TextInput::make('meta_title')->label('Meta title')->maxLength(60),
                     Textarea::make('meta_description')->label('Meta description')->maxLength(160)->rows(3),
+                    Textarea::make('keywords')->label('Mots-clés')->rows(3)->helperText('Séparez les mots-clés par des virgules.')->columnSpanFull(),
                 ])->columns(2)->columnSpanFull(),
             ]);
     }

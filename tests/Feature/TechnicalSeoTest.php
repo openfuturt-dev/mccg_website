@@ -144,4 +144,12 @@ class TechnicalSeoTest extends TestCase
 
         $this->assertSame($response->getContent(), file_get_contents(public_path('robots.txt')));
     }
+
+    public function test_pages_and_services_render_their_seo_keywords(): void
+    {
+        $this->get('/')->assertOk()->assertSee('<meta name="keywords" content="Cabinet de comptabilité au Maroc, Services comptables au Maroc', false);
+        $this->get('/casablanca')->assertOk()->assertSee('Cabinet comptable à Casablanca, Cabinet de conseil à Casablanca', false);
+        $this->get('/services/paie-social')->assertOk()->assertSee('<meta name="keywords" content="Gestion de la paie au Maroc', false);
+        $this->get('/services/conseil-fiscal')->assertOk()->assertSee('Déclaration de TVA au Maroc', false);
+    }
 }

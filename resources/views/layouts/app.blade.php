@@ -2,6 +2,7 @@
     $pageSeo = $seo ?? null;
     $title = $seoTitle ?? ($pageSeo?->meta_title ?? 'MCCG | Cabinet de conseil comptable et fiscal au Maroc');
     $description = $seoDescription ?? ($pageSeo?->meta_description ?? 'MCCG accompagne les entreprises au Maroc en tenue comptable, fiscalité, gestion sociale, conseil juridique et accompagnement administratif.');
+    $keywords = $seoKeywords ?? ($pageSeo?->keywords ?: implode(', ', config('seo_keywords.default')));
     $ogImage = $seoImage ?? ($pageSeo?->og_image ? asset('storage/'.$pageSeo->og_image) : asset('images/logo.png'));
     $schemaContext = '@'.'context';
     $analyticsProvider = config('mccg.analytics_provider');
@@ -19,7 +20,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
-    @isset($seoKeywords)<meta name="keywords" content="{{ $seoKeywords }}">@endisset
+    @if($keywords)<meta name="keywords" content="{{ $keywords }}">@endif
     <link rel="canonical" href="{{ $canonicalUrl }}">
     <meta property="og:locale" content="fr_MA">
     <meta property="og:type" content="{{ $ogType ?? 'website' }}">
@@ -49,6 +50,7 @@
             'addressCountry' => 'MA',
         ],
         'areaServed' => ['@type' => 'Country', 'name' => 'Maroc'],
+        'knowsAbout' => ['Comptabilité', 'Externalisation comptable', 'Fiscalité des entreprises marocaines', 'Gestion de la paie', 'Contrôle de gestion', 'Gestion de trésorerie', 'Création d’entreprise au Maroc', 'Contrôle interne', 'Conseil en management'],
         'email' => config('mccg.email'), 'telephone' => config('mccg.phone'),
         'sameAs' => array_values(array_filter([config('mccg.linkedin_url'), config('mccg.instagram_url')])),
         'priceRange' => '$$',

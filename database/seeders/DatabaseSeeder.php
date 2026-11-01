@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ["Dubai","dubai",'Conseil comptable et accompagnement à Dubaï | MCCG','MCCG accompagne les entrepreneurs et entreprises à Dubaï dans leurs besoins comptables, fiscaux, administratifs et leur développement entre le Maroc et les Émirats.']
 
         ] as [$name, $slug, $title, $description]) {
-            PageSeo::updateOrCreate(['slug' => $slug], ['page_name' => $name, 'meta_title' => $title, 'meta_description' => $description]);
+            PageSeo::updateOrCreate(['slug' => $slug], ['page_name' => $name, 'meta_title' => $title, 'meta_description' => $description, 'keywords' => $this->keywords('pages', $slug)]);
         }
 
         $services = [
@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         ];
         foreach ($services as [$title, $slug, $short, $content, $icon]) {
             Service::updateOrCreate(['slug' => $slug], compact('title', 'content', 'icon') + [
-                'short_description' => $short, 'meta_title' => $title.' — MCCG', 'meta_description' => $short, 'is_active' => true,
+                'short_description' => $short, 'meta_title' => $title.' — MCCG', 'meta_description' => $short, 'keywords' => $this->keywords('services', $slug), 'is_active' => true,
             ]);
         }
 
@@ -61,5 +61,12 @@ class DatabaseSeeder extends Seeder
             'meta_description' => 'Les contrôles essentiels pour préparer une clôture comptable fiable et utile au pilotage de votre entreprise.',
             'keywords' => 'clôture comptable, entreprise Maroc, conseil', 'status' => 'published', 'published_at' => now()->subDays(5), 'created_by' => $admin->id,
         ]);
+    }
+
+    private function keywords(string $group, string $slug): ?string
+    {
+        $keywords = config("seo_keywords.$group.$slug");
+
+        return $keywords ? implode(', ', $keywords) : null;
     }
 }
