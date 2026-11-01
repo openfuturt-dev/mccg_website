@@ -50,7 +50,7 @@ Container `GTM-N64QTKK` is currently published with **no tags**.
    - Trigger: `MCCG - Successful Lead`.
    - Consent settings: keep the built-in checks (`ad_storage`, `ad_user_data`). The site only emits the event after acceptance anyway.
 4. **Tag** `Conversion Linker`: trigger *All Pages*.
-5. **Optional GA4**, only if a GA4 property exists (no `G-` ID is configured today):
+5. **Optional GA4 lead event** (GA4 `G-E0GCGNTBLL` already loads on every page through the site's Google tag, so do not add a GA4 configuration tag in GTM):
    - Add a GA4 Event tag `generate_lead` on the same trigger.
    - Do not also import `generate_lead` into Google Ads as a *principale* conversion, or each lead counts twice.
 6. **Submit → Publish**.

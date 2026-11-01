@@ -226,6 +226,7 @@ class PublicWebsiteTest extends TestCase
         config()->set('mccg.analytics_provider', 'google');
         config()->set('mccg.google_tag_id', 'AW-987825813');
         config()->set('mccg.google_tag_manager_id', 'GTM-N64QTKK');
+        config()->set('mccg.google_analytics_id', 'G-E0GCGNTBLL');
         config()->set('mccg.plausible_domain', 'wrong.example');
 
         $this->get(route('accueil'))
@@ -235,6 +236,7 @@ class PublicWebsiteTest extends TestCase
             ->assertSee('src="https://www.googletagmanager.com/ns.html?id=GTM-N64QTKK"', false)
             ->assertSee('data-mccg-google-bootstrap', false)
             ->assertSee("window.gtag('consent', 'default'", false)
+            ->assertSee("window.gtag('config', \"G-E0GCGNTBLL\")", false)
             ->assertSee('data-cookie-notice', false)
             ->assertDontSee('plausible.io/js/script.js', false);
     }

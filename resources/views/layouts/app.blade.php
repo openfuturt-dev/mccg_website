@@ -8,6 +8,7 @@
     $analyticsProvider = config('mccg.analytics_provider');
     $googleTagId = config('mccg.google_tag_id');
     $googleTagManagerId = config('mccg.google_tag_manager_id');
+    $googleAnalyticsId = config('mccg.google_analytics_id');
     $googleAdsConversionSendTo = config('mccg.google_ads_conversion_send_to');
     $plausibleDomain = config('mccg.plausible_domain');
     $canonicalUrl = app(\App\Support\CanonicalUrl::class)->current(request());
@@ -98,6 +99,9 @@
 
                 window.gtag('js', new Date());
                 window.gtag('config', measurementId);
+                @if($googleAnalyticsId)
+                window.gtag('config', @json($googleAnalyticsId));
+                @endif
             })();
         </script>
         @if($googleTagManagerId)

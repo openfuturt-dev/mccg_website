@@ -21,6 +21,7 @@ return [
     'google_maps_embed_url' => env('MCCG_GOOGLE_MAPS_EMBED_URL'),
     'analytics_provider' => strtolower((string) env('MCCG_ANALYTICS_PROVIDER', 'google')),
     'google_tag_id' => env('MCCG_GOOGLE_TAG_ID', env('MCCG_GA_ID', 'AW-987825813')),
+    'google_analytics_id' => env('MCCG_GOOGLE_ANALYTICS_ID', 'G-E0GCGNTBLL'),
     'google_tag_manager_id' => env('MCCG_GOOGLE_TAG_MANAGER_ID', 'GTM-N64QTKK'),
     'google_ads_conversion_send_to' => env('MCCG_GOOGLE_ADS_CONVERSION_SEND_TO', 'AW-987825813/g_upCMH2m7sYEJWNhNcD'),
     'plausible_domain' => env('MCCG_PLAUSIBLE_DOMAIN'),
